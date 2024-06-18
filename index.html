@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="githubExplorer">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app.controller.js"></script>
+    <script src="app.service.js"></script>
+</head>
+<body ng-controller="MainController">
+    <div id="app-container">
+        <h1>GitHub Explorer</h1>
+        <input type="text" ng-model="searchQuery" placeholder="Search Repositories">
+        <button ng-click="searchRepos()">Search</button>
+
+        <div id="repo-list">
+            <h2>Repositories</h2>
+            <ul>
+                <li ng-repeat="repo in repositories" ng-click="getRepoDetails(repo)">
+                    {{ repo.name }} by {{ repo.owner.login }}
+                </li>
+            </ul>
+        </div>
+
+        <div id="repo-details" ng-if="repoDetails">
+            <h2>{{ repoDetails.name }}</h2>
+            <p>{{ repoDetails.description }}</p>
+            <p>Stars: {{ repoDetails.stargazers_count }}</p>
+            <p>Forks: {{ repoDetails.forks_count }}</p>
+            <button ng-click="getUserProfile(repoDetails.owner.login)">View Owner Profile</button>
+        </div>
+
+        <div id="user-profile" ng-if="user">
+            <h2>{{ user.login }}</h2>
+            <img ng-src="{{ user.avatar_url }}" alt="{{ user.login }}">
+            <p>Followers: {{ user.followers }}</p>
+            <p>Following: {{ user.following }}</p>
+            <p>Public Repos: {{ user.public_repos }}</p>
+        </div>
+    </div>
+</body>
+</html>
